@@ -1,6 +1,8 @@
 package dev.openfeature.sdk;
 
 import static org.awaitility.Awaitility.await;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.after;
@@ -590,6 +592,15 @@ class EventsTest {
         // again.
         provider2.mockEvent(ProviderEvent.PROVIDER_CONFIGURATION_CHANGED, ProviderEventDetails.builder().build());
         verify(handler, timeout(TIMEOUT).times(2)).accept(argThat(nameMatches));
+    }
+
+    @Test
+    @DisplayName("addGlobalHandler should be chainable")
+    public void addGlobalHandlerShouldBeChainable() {
+        final Consumer<EventDetails> handler = mockHandler();
+        OpenFeatureAPI client = OpenFeatureAPI.getInstance();
+        OpenFeatureAPI result = client.onProviderConfigurationChanged(handler);
+        assertEquals(client, result);
     }
 
     @Nested

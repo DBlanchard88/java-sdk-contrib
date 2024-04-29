@@ -108,8 +108,9 @@ class EventSupport {
      * @param event   the event type
      * @param handler the handler to be added
      */
-    public void addGlobalHandler(ProviderEvent event, Consumer<EventDetails> handler) {
+    public EventSupport addGlobalHandler(ProviderEvent event, Consumer<EventDetails> handler) {
         this.globalHandlerStore.addHandler(event, handler);
+        return this;
     }
 
     /**
